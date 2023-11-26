@@ -12,7 +12,12 @@ use App\Models\Torneos;
 class Equipo extends Model
 {
     use HasFactory;
-
+    protected $hidden = [
+        'id'
+    ];
+    protected $guarded = [
+        'id'
+    ];
     /**
     * Relación muchos a muchos con user
     */

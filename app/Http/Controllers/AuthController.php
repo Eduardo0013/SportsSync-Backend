@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthUpdateRequest;
 use App\Http\Requests\CreateRequest;
 use App\Http\Service\AuthService;
 use App\Http\Requests\LoginRequest;
@@ -28,6 +29,16 @@ class AuthController extends Controller
         
         return response()->json([
             'message' => 'no se recibieron datos'
+        ],400);
+    }
+    public function update(AuthUpdateRequest $request) {
+        if($this->authService->update($request)){
+            return response()->json([
+                'message' => 'El recurso ha sido actualizado',
+            ],200);
+        }
+        return response()->json([
+            'message' => 'No se ha podido actualizar el recurso'
         ],400);
     }
 }

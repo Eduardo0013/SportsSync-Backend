@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\DeporteController;
+use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\TorneoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::controller(AuthController::class)->group(function(){
-    Route::post('/create','create');
-    Route::post('/login','login');
-    Route::patch('/update','update');
+    Route::post('/auth/create','create');
+    Route::post('/auth/login','login');
+    Route::patch('/auth/update','update');
 });
+Route::apiResource('/torneos',TorneoController::class);
+Route::apiResource('/deportes',DeporteController::class);
+Route::apiResource('/categorias',CategoriaController::class);
+Route::apiResource('/equipos',EquipoController::class);

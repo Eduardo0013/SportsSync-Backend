@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     use HasFactory;
+    protected $fillable = ['nombre'];
+
+    /**
+    * Relación uno a muchos con torneo
+    */
+    public function torneo(){
+        return $this->hasOne(Torneo::class);
+    }
 }

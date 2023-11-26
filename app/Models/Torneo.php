@@ -16,13 +16,13 @@ class Torneo extends Model
     * Relación muchos a muchos con equipo
     */
     public function equipos(){
-        return $this->belongsToMany(Equipo::class);
+        return $this->belongsToMany(Equipo::class,'equipos_torneos');
     }
     /**
     * Relación uno a muchos con categoria
     */
     public function categorias(){
-        return $this->hasOne(Categoria::class);
+        return $this->belongsTo(Categoria::class);
     }
     /**
     * Relación uno a muchos con Partido

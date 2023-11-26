@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Service;
+
+use App\Http\Requests\AuthUpdateRequest;
 use App\Http\Requests\CreateRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\PersonalAccessToken;
@@ -53,5 +55,22 @@ class AuthService{
           'user' => $user,
           'bearerToken' => $token->access_token  
         ]);
+    }
+    public function update(AuthUpdateRequest $request) {
+        $user = User::find($request->id)->get();
+        if($user === null){
+            return false;
+        }
+        $user->nombre = $request->nombre;
+        $user->username = $request->username;
+        $user->apellido_paterno = $request->apellidoPaterno;
+        $user->apellido_materno = $request->apellidoMaterno;
+        $user->phone_number = $request->phoneNumber;
+        $user->fecha_nacimiento = $request->fechaNacimiento;
+        $user->profile_photo = $request->profilePhoto;
+        $user->ine_address = $request->ineAddress;
+        $user->password = Hash::make($request->password);
+        $user->email = $request->email;
+        return $user->save();
     }
 }
