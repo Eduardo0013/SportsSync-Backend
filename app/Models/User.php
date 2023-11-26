@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Attribute;
+use App\Models\Invitacion;
 use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticable;
@@ -23,6 +23,12 @@ class User extends Authenticable implements JWTSubject
         return new CastsAttribute(
             set: fn($value) => Hash::make($value)
         );
+    }
+    /**
+    * Relación uno a muchos con invitación
+    */
+    public function invitacion(){
+        return $this->hasMany(Invitacion::class);
     }
     public function getJWTIdentifier() {
         return $this->getKey();

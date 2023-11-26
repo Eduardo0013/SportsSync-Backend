@@ -13,6 +13,12 @@ class Torneo extends Model
     use HasFactory;
     
     /**
+    * Relación uno a muchos con Invitación
+    */
+    public function invitaciones(){
+        return $this->hasMany(Invitacion::class);
+    }
+    /**
     * Relación muchos a muchos con equipo
     */
     public function equipos(){

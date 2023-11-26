@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TorneoCreateRequest extends FormRequest
+class CreateTorneoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,13 @@ class TorneoCreateRequest extends FormRequest
             //
             'nombre' => 'required|max:255',
             'descripcion' => 'required|max:255',
+            'logo' => 'required',
             'fechaInicio' => 'required',
             'fechaFin' => 'required',
             'ubicacion' => 'required',
             'categoria' => 'required|numeric',
             'deporte' => 'required|numeric',
-            'privado' => 'required',
+            'privado' => 'boolean|required',
         ];
     }
 }

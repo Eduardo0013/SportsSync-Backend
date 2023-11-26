@@ -13,7 +13,7 @@ class AuthController extends Controller
         $this->middleware('auth:api',['except' => ['login','create']]);
     }
     public function login(LoginRequest $request) {
-       if($content = $this->authService->login($request)){
+       if($content = $this->authService->login(collect($request->all()))){
             return response()->json($content->toArray(),200);
        }
         return response()->json([
@@ -22,8 +22,8 @@ class AuthController extends Controller
     }
     //
     public function create(CreateRequest $request) {
-        $content = $this->authService->create($request);
-        if($content->isNotEmpty()){
+        $content = $this->authService->create(collect($request->all()));
+        if($content->isNotEmpty()) {
             return response()->json($content->toArray(),201);
         }
         
@@ -32,7 +32,7 @@ class AuthController extends Controller
         ],400);
     }
     public function update(AuthUpdateRequest $request) {
-        if($this->authService->update($request)){
+        if($this->authService->update(collect($request->all()))){
             return response()->json([
                 'message' => 'El recurso ha sido actualizado',
             ],200);

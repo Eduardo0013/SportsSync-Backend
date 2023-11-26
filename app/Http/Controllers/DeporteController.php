@@ -36,7 +36,7 @@ class DeporteController extends Controller
         ],401);
     }
     public function update(DeporteUpdateRequest $request) {
-        if($this->deporteService->update($request)){
+        if($this->deporteService->update(collect($request->all()))){
             return response()->json([
                 'message' => 'El recurso fue actualizado'
             ],200);

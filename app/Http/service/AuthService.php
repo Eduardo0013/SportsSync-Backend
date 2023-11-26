@@ -1,27 +1,25 @@
 <?php
 namespace App\Http\Service;
 
-use App\Http\Requests\AuthUpdateRequest;
-use App\Http\Requests\CreateRequest;
-use App\Http\Requests\LoginRequest;
 use App\Models\PersonalAccessToken;
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService{
-    public function create(CreateRequest $request) {
+    public function create(Collection $user) {
         $user = User::create([
-            'nombre' => $request->nombre,
-            'username' => $request->username,
-            'apellido_paterno' => $request->apellidoPaterno,
-            'apellido_materno' => $request->apellidoMaterno,
-            'phone_number' => $request->phoneNumber,
-            'fecha_nacimiento' => $request->fechaNacimiento,
-            'profile_photo' => $request->profilePhoto,
-            'ine_address' => $request->ineAddress,
-            'password' => Hash::make($request->password),
-            'email' => $request->email
+            'nombre' => $user->get('nombre'),
+            'username' => $user->get('username'),
+            'apellido_paterno' => $user->get('apellidoPaterno'),
+            'apellido_materno' => $user->get('apellidoMaterno'),
+            'phone_number' => $user->get('phoneNumber'),
+            'fecha_nacimiento' => $user->get('fechaNacimiento'),
+            'profile_photo' => $user->get('profilePhoto'),
+            'ine_address' => $user->get('ineAddress'),
+            'password' => Hash::make($user->get('password')),
+            'email' => $user->get('email')
         ]);
     
         $expiresAt = now()->addDays(25);
@@ -40,15 +38,15 @@ class AuthService{
             'bearerToken' => $personalAccessToken->access_token
         ]);
     }
-    public function login(LoginRequest $user) {
-        $userReal = User::where('username',$user->username)->firstOrFail();        
+    public function login(Collection $user) {
+        $userReal = User::where('username',$user->get('username'))->firstOrFail();        
         $expireAt = now()->addDays(25);
         $token = PersonalAccessToken::create([
             'user_id' => $userReal->id,
             'access_token' => JWTAuth::fromUser($userReal),
             'expired_at' => $expireAt
         ]);
-        if(!Hash::check($user->password,$userReal->password)){
+        if(!Hash::check($user->get('password'),$userReal->password)){
             return false;
         }
         return collect([
@@ -56,21 +54,21 @@ class AuthService{
           'bearerToken' => $token->access_token  
         ]);
     }
-    public function update(AuthUpdateRequest $request) {
-        $user = User::find($request->id)->get();
+    public function update(Collection $user) {
+        $user = User::find($user->id)->get();
         if($user === null){
             return false;
         }
-        $user->nombre = $request->nombre;
-        $user->username = $request->username;
-        $user->apellido_paterno = $request->apellidoPaterno;
-        $user->apellido_materno = $request->apellidoMaterno;
-        $user->phone_number = $request->phoneNumber;
-        $user->fecha_nacimiento = $request->fechaNacimiento;
-        $user->profile_photo = $request->profilePhoto;
-        $user->ine_address = $request->ineAddress;
-        $user->password = Hash::make($request->password);
-        $user->email = $request->email;
+        $user->nombre = $user->get('nombre');
+        $user->username = $user->get('username');
+        $user->apellido_paterno = $user->get('apellidoPaterno');
+        $user->apellido_materno = $user->get('apellidoMaterno');
+        $user->phone_number = $user->get('phoneNumber');
+        $user->fecha_nacimiento = $user->get('fechaNacimiento');
+        $user->profile_photo = $user->get('profilePhoto');
+        $user->ine_address = $user->get('ineAddress');
+        $user->password = Hash::make($user->get('password'));
+        $user->email = $user->get('email');
         return $user->save();
     }
 }

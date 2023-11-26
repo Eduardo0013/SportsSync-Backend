@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TorneoCreateRequest;
 use App\Http\Service\TorneoService;
 use App\Models\Torneo;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Validator;
 use Illuminate\Http\Request;
 
 class TorneoController extends Controller
@@ -12,14 +15,12 @@ class TorneoController extends Controller
         $this->middleware('auth:api',['except' => ['show']]);
     }
     //
-    public function store(Request $request){
-        $collect = $this->torneoService->create($request);
+    public function store(TorneoCreateRequest $request){
+        $collect = $this->torneoService->create(collect($request->all()));
         if($collect->isNotEmpty()){
-            return response()->json([
-                'message' => 'El recurso ha sido creado',
-                'torneo' => $collect->get('torneo'),
-                'invitados' => $collect->get('invitados')
-            ],201);
+            return response()->json(array_merge([
+                'message' => 'El recurso ha sido creado',    
+            ],$collect->toArray()),201);
         }
         return response()->json([
             'message' => 'No se ha podido crear el recurso'

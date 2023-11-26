@@ -1,20 +1,19 @@
 <?php
 namespace App\Http\Service;
 
-use App\Http\Requests\DeporteStoreRequest;
-use App\Http\Requests\DeporteUpdateRequest;
 use App\Models\Deporte;
+use Illuminate\Support\Collection;
 
 class DeporteService{
-    public function create(DeporteStoreRequest $deporteStoreRequest) {
-        return $deporte = Deporte::create($deporteStoreRequest->all());
+    public function create(Collection $deporte) {
+        return Deporte::create($deporte->all());
     }
-    public function update(DeporteUpdateRequest $deporteStoreRequest): bool {
-        $deporte = Deporte::find($deporteStoreRequest->id)->get();
+    public function update(Collection $deporte) : bool {
+        $deporte = Deporte::find($deporte->get('id'))->get();
         if($deporte === null){
             return false;
         }
-        $deporte->nombre = $deporteStoreRequest->nombre;
+        $deporte->nombre = $deporte->get('nombre');
         return $deporte->save();
     }
 }

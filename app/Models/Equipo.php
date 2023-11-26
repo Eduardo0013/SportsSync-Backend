@@ -42,4 +42,10 @@ class Equipo extends Model
     public function torneos(){
         return $this->belongsToMany(Torneos::class);
     }
+    /**
+    * Relación uno a muchos con invitaciones
+    */
+    public function invitaciones() {
+        return $this->hasMany(Invitacion::class);
+    }
 }
