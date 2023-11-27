@@ -40,8 +40,9 @@ class AuthService{
         ]);
     }
     public function login(Collection $user) {
-        $userReal = User::where('username',$user->get('username'))->first();        
-        if(empty($userReal)) {
+        $userReal = User::where('username',$user->get('username'))->first();    
+   
+        if($userReal === null) {
             throw new HttpResponseException(response()->json([
                 'message' => 'No autorizado, usuario no encontrado'
             ],404));
@@ -56,7 +57,7 @@ class AuthService{
             return false;
         }
         return collect([
-          'user' => $user,
+          'message' => 'Acceso correcto',
           'bearerToken' => $token->access_token  
         ]);
     }
