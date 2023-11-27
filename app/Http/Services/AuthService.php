@@ -3,6 +3,7 @@ namespace App\Http\Services;
 
 use App\Models\PersonalAccessToken;
 use App\Models\User;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -39,7 +40,12 @@ class AuthService{
         ]);
     }
     public function login(Collection $user) {
-        $userReal = User::where('username',$user->get('username'))->firstOrFail();        
+        $userReal = User::where('username',$user->get('username'))->first();        
+        if(empty($userReal)) {
+            throw new HttpResponseException(response()->json([
+                'message' => 'No autorizado, usuario no encontrado'
+            ],404));
+        }
         $expireAt = now()->addDays(25);
         $token = PersonalAccessToken::create([
             'user_id' => $userReal->id,
