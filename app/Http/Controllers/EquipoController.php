@@ -7,6 +7,9 @@ use App\Models\Equipo;
 
 class EquipoController extends Controller
 {
+    public function index(){
+        return response()->json(Equipo::all());
+    }
     //
     public function store(EquipoCreateRequest $equipoCreateRequest) {
         $equipo = Equipo::create($equipoCreateRequest->all());
