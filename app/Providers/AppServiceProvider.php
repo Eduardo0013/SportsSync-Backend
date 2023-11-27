@@ -15,9 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Sanctum::ignoreMigrations();
-        app()->singleton(
-            App\Http\Service\AuthService::class
-        );
+        
     }
 
     /**
