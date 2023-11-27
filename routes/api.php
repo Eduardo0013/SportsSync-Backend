@@ -23,6 +23,7 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/auth/login','login');
     Route::patch('/auth/update','update');
 });
+Route::apiResource('/deportes',DeporteController::class);
 Route::apiResource('/torneos',TorneoController::class);
 Route::apiResource('/deportes',DeporteController::class);
 Route::apiResource('/categorias',CategoriaController::class);

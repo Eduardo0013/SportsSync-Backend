@@ -7,6 +7,11 @@ use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
+    public function index(){
+        return response()->json([
+            'categorias' => Categoria::all()
+        ],200);
+    }
     //
     public function show($id) {
         $categoria = Categoria::find($id)->get();

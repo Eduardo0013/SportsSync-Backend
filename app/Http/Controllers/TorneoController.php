@@ -9,7 +9,12 @@ use App\Models\Torneo;
 class TorneoController extends Controller
 {
     public function __construct(private TorneoService $torneoService) {
-        $this->middleware('auth:api',['except' => ['show']]);
+        $this->middleware('auth:api',['except' => ['show','index']]);
+    }
+    public function index(){
+        return response()->json([
+            'torneos' => Torneo::all()
+        ],200);
     }
     //
     public function store(TorneoCreateRequest $request){
@@ -24,8 +29,8 @@ class TorneoController extends Controller
         ],404);
     }
     public function show(int $id) {
-        $torneo = Torneo::find($id)->get();
-        if(!$torneo->isEmpty()){
+        $torneo = Torneo::where('id',$id)->first();
+        if($torneo !== null){
             return response()->json([
                 'torneo' => $torneo
             ],200);

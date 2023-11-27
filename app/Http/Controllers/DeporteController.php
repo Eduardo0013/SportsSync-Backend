@@ -10,7 +10,12 @@ use App\Models\Deporte;
 class DeporteController extends Controller
 {
     public function __construct(private DeporteService $deporteService) {
-        $this->middleware('auth:api',['except' => ['show']]);
+        $this->middleware('auth:api',['except' => ['show','index']]);
+    }
+    public function index(){
+        return response()->json([
+            'deportes' => Deporte::all()
+        ],200);
     }
     //
     public function store(DeporteStoreRequest $request){
@@ -24,8 +29,12 @@ class DeporteController extends Controller
             'message' => 'No se ha podido crear el recurso'
         ],401);
     }
-    public function show(int $id){
-        $deporte = Deporte::where('id',$id)->get();
+    /**
+    * 
+    */
+    public function show($id){
+        $deporte = Deporte::where('id',$id)->first();
+        
         if($deporte !== null){
             return response()->json([
                 'deporte' => $deporte
