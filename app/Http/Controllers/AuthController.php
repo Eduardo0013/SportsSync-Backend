@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthUpdateRequest;
 use App\Http\Requests\CreateRequest;
-use App\Http\Service\AuthService;
+use App\Http\Services\AuthService;
 use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller

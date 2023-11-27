@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TorneoCreateRequest;
-use App\Http\Service\TorneoService;
+use App\Http\Services\TorneoService;
 use App\Models\Torneo;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Validator;
-use Illuminate\Http\Request;
 
 class TorneoController extends Controller
 {

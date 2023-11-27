@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Service;
+namespace App\Http\Services;
 
 use App\Models\PersonalAccessToken;
 use App\Models\User;

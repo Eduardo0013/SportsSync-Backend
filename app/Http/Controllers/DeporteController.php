@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeporteStoreRequest;
-use App\Http\Service\DeporteService;
+use App\Http\Services\DeporteService;
 use App\Http\Requests\DeporteUpdateRequest;
 use App\Models\Deporte;
 
